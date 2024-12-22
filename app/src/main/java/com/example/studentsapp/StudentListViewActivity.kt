@@ -1,6 +1,7 @@
 package com.example.studentsapp
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,8 +13,13 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.example.studentsapp.model.Model
+import com.example.studentsapp.model.Student
 
 class StudentListViewActivity : AppCompatActivity() {
+
+    var students: MutableList<Student> ? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -24,12 +30,13 @@ class StudentListViewActivity : AppCompatActivity() {
             insets
         }
 
+        students = Model.shared.students
         val listView: ListView = findViewById(R.id.student_list_view)
         listView.adapter = StudentsAdapter()
     }
 
-    class StudentsAdapter(): BaseAdapter() {
-        override fun getCount(): Int = 10
+    inner class StudentsAdapter(): BaseAdapter() {
+        override fun getCount(): Int = students?.size ?: 0
         override fun getItem(position: Int): Any {
             TODO("Not yet implemented")
         }
@@ -39,17 +46,57 @@ class StudentListViewActivity : AppCompatActivity() {
         }
 
         override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-            val inflator = LayoutInflater.from(parent?.context)
-            val view = convertView ?: inflator.inflate(R.layout.student_list_row, parent, false)
+            val inflation = LayoutInflater.from(parent?.context)
+            val view = convertView ?: inflation.inflate(
+                R.layout.student_list_row,
+                parent,
+                false
+            ).apply {
+                findViewById<CheckBox>(R.id.student_row_check_box).apply {
+                    setOnClickListener { view ->
+                        (tag as? Int)?.let { tag ->
+                            val student = students?.get(tag)
+                            student?.isChecked = (view as? CheckBox)?.isChecked ?: false
+                        }
+                    }
+                }
+            }
 
-            val nameTextView: TextView = view.findViewById(R.id.student_row_name_text_view)
-            val idTextView: TextView = view.findViewById(R.id.student_row_id_text_view)
-            val phoneTextView: TextView =  view.findViewById(R.id.student_row_phone_text_view)
-            val addressTextView: TextView = view.findViewById(R.id.student_row_address_text_view)
+//            var view = convertView
+//            if (view == null){
+//                view = inflation.inflate(R.layout.student_list_row, parent, false)
+//                Log.d("TAG", "Inflating position $position")
+//                val checkBox: CheckBox? = view?.findViewById(R.id.student_row_check_box)
+//
+//                checkBox?.apply {
+//                    setOnClickListener { view ->
+//                        (tag as? Int)?.let { tag ->
+//                            val student = students?.get(tag)
+//                            student?.isChecked = (view as? CheckBox)?.isChecked ?: false
+//                        }
+//                    }
+//                }
+//            }
 
-            val checkBox: CheckBox = view.findViewById(R.id.student_row_check_box)
+            val student = students?.get(position)
+            val nameTextView: TextView? = view?.findViewById(R.id.student_row_name_text_view)
+            val idTextView: TextView? = view?.findViewById(R.id.student_row_id_text_view)
+            val phoneTextView: TextView? =  view?.findViewById(R.id.student_row_phone_text_view)
+            val addressTextView: TextView? = view?.findViewById(R.id.student_row_address_text_view)
+            val checkBox: CheckBox? = view?.findViewById(R.id.student_row_check_box)
 
-            return view
+            nameTextView?.text = student?.name
+            idTextView?.text = student?.id
+            phoneTextView?.text = student?.phone
+            addressTextView?.text = student?.address
+
+            checkBox?.apply {
+                isChecked = student?. isChecked ?: false
+                tag = position
+            }
+
+
+            return view!!
         }
     }
 }
