@@ -12,14 +12,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
-        android:text="id:"
+        android:text="ID:"
         app:layout_constraintStart_toStartOf="@+id/add_student_activity_name_text_view"
         app:layout_constraintTop_toBottomOf="@+id/add_student_activity_name_text_view" />
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="617dp"
-        android:layout_height="717dp"
+        android:layout_width="428dp"
+        android:layout_height="278dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -32,7 +33,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="30dp"
         android:layout_marginEnd="4dp"
-        android:text="name:"
+        android:text="Name:"
         app:layout_constraintEnd_toStartOf="@+id/add_student_activity_name_edit_text"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView" />
@@ -66,7 +67,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:layout_marginEnd="4dp"
-        android:text="phone:"
+        android:text="Phone:"
         app:layout_constraintEnd_toStartOf="@+id/add_student_activity_phone_edit_text"
         app:layout_constraintHorizontal_bias="0.007"
         app:layout_constraintStart_toStartOf="@+id/student_activity_id_text_view"
@@ -79,20 +80,21 @@
         android:layout_marginStart="4dp"
         android:layout_marginEnd="8dp"
         android:ems="10"
-        android:inputType="text"
+        android:inputType="phone"
+        app:layout_constraintBaseline_toBaselineOf="@+id/add_student_activity_phone_text_view"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/add_student_activity_phone_text_view"
-        tools:layout_editor_absoluteY="847dp" />
+        app:layout_constraintStart_toEndOf="@+id/add_student_activity_phone_text_view" />
 
     <TextView
         android:id="@+id/add_student_activity_address_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
         android:layout_marginEnd="4dp"
-        android:text="address:"
-        app:layout_constraintBaseline_toBaselineOf="@+id/add_student_activity_address_edit_text"
+        android:text="Address:"
         app:layout_constraintEnd_toStartOf="@+id/add_student_activity_address_edit_text"
-        app:layout_constraintStart_toStartOf="@+id/add_student_activity_phone_text_view" />
+        app:layout_constraintStart_toStartOf="@+id/add_student_activity_phone_text_view"
+        app:layout_constraintTop_toBottomOf="@+id/add_student_activity_phone_text_view" />
 
     <EditText
         android:id="@+id/add_student_activity_address_edit_text"
@@ -101,17 +103,17 @@
         android:layout_marginStart="4dp"
         android:layout_marginEnd="8dp"
         android:ems="10"
-        android:inputType="text"
+        android:inputType="textPostalAddress"
+        app:layout_constraintBaseline_toBaselineOf="@+id/add_student_activity_address_text_view"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/add_student_activity_address_text_view"
-        tools:layout_editor_absoluteY="900dp" />
+        app:layout_constraintStart_toEndOf="@+id/add_student_activity_address_text_view" />
 
     <CheckBox
         android:id="@+id/add_student_activity_checked_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
-        android:text="checked"
+        android:text="Checked"
         app:layout_constraintStart_toStartOf="@+id/add_student_activity_address_text_view"
         app:layout_constraintTop_toBottomOf="@+id/add_student_activity_address_text_view" />
 
@@ -123,7 +125,7 @@
         android:layout_marginEnd="4dp"
         android:layout_marginBottom="40dp"
         android:text="CANCEL"
-        android:textColor="#0F0000"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/add_student_activity_save_button"
         app:layout_constraintStart_toStartOf="parent"
@@ -137,7 +139,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="40dp"
         android:text="SAVE"
-        android:textColor="@color/black"
+        android:textColor="@color/white"
         android:textColorLink="#C1BEBE"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
