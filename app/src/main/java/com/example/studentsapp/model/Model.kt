@@ -18,6 +18,7 @@ class Model private constructor() {
                 avatarUrl = "",
                 isChecked = false
             )
+            students.add(student)
         }
     }
 }
