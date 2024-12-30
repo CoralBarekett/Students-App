@@ -126,10 +126,10 @@
         android:layout_marginBottom="40dp"
         android:text="CANCEL"
         android:textColor="@color/white"
+        android:textColorLink="#C1BEBE"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/add_student_activity_save_button"
-        app:layout_constraintStart_toStartOf="parent"
-        app:rippleColor="@color/black" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/add_student_activity_save_button"
