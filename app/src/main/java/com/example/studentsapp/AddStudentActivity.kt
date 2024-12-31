@@ -23,7 +23,7 @@ class AddStudentActivity : AppCompatActivity() {
         val checkedButton: CheckBox = findViewById(R.id.add_student_activity_checked_button)
 
         val saveButton: Button = findViewById(R.id.add_student_activity_save_button)
-        val cancelButton: Button = findViewById(R.id.add_student_activity_save_button)
+        val cancelButton: Button = findViewById(R.id.add_student_activity_cancel_button)
 
         val nameEditText: EditText = findViewById(R.id.add_student_activity_name_edit_text)
         val idEditText: EditText = findViewById(R.id.add_student_activity_id_edit_text)
