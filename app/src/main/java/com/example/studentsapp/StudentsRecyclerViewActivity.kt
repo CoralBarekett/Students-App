@@ -1,9 +1,11 @@
 package com.example.studentsapp
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.CheckBox
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
@@ -38,22 +40,23 @@ class StudentsRecyclerViewActivity : AppCompatActivity() {
 
         val adapter = StudentsRecyclerAdapter(students)
         recyclerView.adapter = adapter
+
+        val addStudentButton: Button = findViewById(R.id.students_list_activity_add_button)
+        addStudentButton.setOnClickListener {
+            val intent = Intent(this, AddStudentActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     class StudentViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-
         private var nameTextView: TextView? = null
         private var idTextView: TextView? = null
-        private var phoneTextView: TextView? = null
-        private var addressTextView: TextView? = null
         private var checkBox: CheckBox? = null
         private var student: Student? = null
 
         init {
             nameTextView = itemView.findViewById(R.id.student_row_name_text_view)
             idTextView = itemView.findViewById(R.id.student_row_id_text_view)
-            phoneTextView = itemView.findViewById(R.id.student_row_phone_text_view)
-            addressTextView = itemView.findViewById(R.id.student_row_address_text_view)
             checkBox = itemView.findViewById(R.id.student_row_check_box)
 
             checkBox?.apply {
@@ -63,8 +66,20 @@ class StudentsRecyclerViewActivity : AppCompatActivity() {
                     }
                 }
             }
-            itemView.setOnClickListener{
-                adapterPosition
+
+            // Add an intent to navigate to StudentDetailsActivity
+            itemView.setOnClickListener {
+                student?.let { student ->
+                    val context = itemView.context
+                    val intent = Intent(context, StudentDetailsActivity::class.java).apply {
+                        putExtra("studentId", student.id)
+                        putExtra("studentName", student.name)
+                        putExtra("studentPhone", student.phone)
+                        putExtra("studentAddress", student.address)
+                        putExtra("isChecked", student.isChecked)
+                    }
+                    context.startActivity(intent)
+                }
             }
         }
 
@@ -72,14 +87,13 @@ class StudentsRecyclerViewActivity : AppCompatActivity() {
             this.student = student
             nameTextView?.text = student?.name
             idTextView?.text = student?.id
-            phoneTextView?.text = student?.phone
-            addressTextView?.text = student?.address
             checkBox?.apply {
                 isChecked = student?.isChecked ?: false
                 tag = position
             }
         }
     }
+
 
         class StudentsRecyclerAdapter(private val students: List<Student>?) :
             RecyclerView.Adapter<StudentViewHolder>() {
