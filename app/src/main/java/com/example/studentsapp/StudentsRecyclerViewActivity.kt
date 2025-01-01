@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.CheckBox
 import android.widget.ImageButton
 import android.widget.TextView
@@ -50,71 +49,52 @@ class StudentsRecyclerViewActivity : AppCompatActivity() {
     }
 
     class StudentViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private var nameTextView: TextView? = null
-        private var idTextView: TextView? = null
-        private var checkBox: CheckBox? = null
+        private var nameTextView: TextView? = itemView.findViewById(R.id.student_row_name_text_view)
+        private var idTextView: TextView? = itemView.findViewById(R.id.student_row_id_text_view)
+        private var checkBox: CheckBox? = itemView.findViewById(R.id.student_row_check_box)
         private var student: Student? = null
 
         init {
-            nameTextView = itemView.findViewById(R.id.student_row_name_text_view)
-            idTextView = itemView.findViewById(R.id.student_row_id_text_view)
-            checkBox = itemView.findViewById(R.id.student_row_check_box)
-
-            checkBox?.apply {
-                setOnClickListener { view ->
-                    (tag as? Int)?.let { tag ->
-                        student?.isChecked = (view as? CheckBox)?.isChecked ?: false
+            // Set click listener on the entire row (itemView)
+            itemView.setOnClickListener {
+                student?.let {
+                    val intent = Intent(itemView.context, StudentDetailsActivity::class.java).apply {
+                        putExtra("studentId", it.id)
+                        putExtra("studentName", it.name)
+                        putExtra("studentPhone", it.phone)
+                        putExtra("studentAddress", it.address)
+                        putExtra("isChecked", it.isChecked)
                     }
+                    itemView.context.startActivity(intent)
                 }
             }
 
-            // Add an intent to navigate to StudentDetailsActivity
-            itemView.setOnClickListener {
-                student?.let { student ->
-                    val context = itemView.context
-                    val intent = Intent(context, StudentDetailsActivity::class.java).apply {
-                        putExtra("studentId", student.id)
-                        putExtra("studentName", student.name)
-                        putExtra("studentPhone", student.phone)
-                        putExtra("studentAddress", student.address)
-                        putExtra("isChecked", student.isChecked)
-                    }
-                    context.startActivity(intent)
-                }
+            checkBox?.setOnClickListener { view ->
+                val isChecked = (view as CheckBox).isChecked
+                student?.isChecked = isChecked
             }
         }
 
-        fun bind(student: Student?, position: Int) {
+        fun bind(student: Student?) {
             this.student = student
             nameTextView?.text = student?.name
             idTextView?.text = student?.id
-            checkBox?.apply {
-                isChecked = student?.isChecked ?: false
-                tag = position
-            }
+            checkBox?.isChecked = student?.isChecked ?: false
         }
     }
 
+    class StudentsRecyclerAdapter(private val students: List<Student>?) :
+        RecyclerView.Adapter<StudentViewHolder>() {
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StudentViewHolder {
+            val inflater = LayoutInflater.from(parent.context)
+            val view = inflater.inflate(R.layout.student_list_row, parent, false)
+            return StudentViewHolder(view)
+        }
 
-        class StudentsRecyclerAdapter(private val students: List<Student>?) :
-            RecyclerView.Adapter<StudentViewHolder>() {
-            override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StudentViewHolder {
-                val inflation = LayoutInflater.from(parent.context)
-                val view = inflation.inflate(
-                    R.layout.student_list_row,
-                    parent,
-                    false
-                )
+        override fun getItemCount(): Int = students?.size ?: 0
 
-
-                return StudentViewHolder(view)
-            }
-
-            override fun getItemCount(): Int = students?.size ?: 0
-
-            override fun onBindViewHolder(holder: StudentViewHolder, position: Int) {
-                holder.bind(students?.get(position), position)
-            }
-
+        override fun onBindViewHolder(holder: StudentViewHolder, position: Int) {
+            holder.bind(students?.get(position))
         }
     }
+}

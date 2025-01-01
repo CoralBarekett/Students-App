@@ -1,5 +1,6 @@
 package com.example.studentsapp
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.CheckBox
@@ -24,13 +25,11 @@ class StudentDetailsActivity : AppCompatActivity() {
 
         // Initialize views
         val checkedButton: CheckBox = findViewById(R.id.student_details_activity_checked_button)
-        val editButton: Button = findViewById(R.id.student_details_activity_edit_button)
         val nameEditText: EditText = findViewById(R.id.student_details_activity_name_edit_text)
         val idEditText: EditText = findViewById(R.id.student_details_activity_id_edit_text)
         val phoneEditText: EditText = findViewById(R.id.student_details_activity_phone_edit_text)
         val addressEditText: EditText = findViewById(R.id.student_details_activity_address_edit_text)
-        val editMessageTextView: TextView = findViewById(R.id.student_details_activity_edit_message_text_view)
-
+        val editButton: Button = findViewById(R.id.student_details_activity_edit_button)
 
         // Retrieve data from intent
         val studentName = intent.getStringExtra("studentName")
@@ -46,23 +45,9 @@ class StudentDetailsActivity : AppCompatActivity() {
         studentAddress?.let { addressEditText.setText(it) }
         checkedButton.isChecked = isChecked
 
-        // Handle the edit button click
         editButton.setOnClickListener {
-            val name = nameEditText.text.toString().trim()
-            val id = idEditText.text.toString().trim()
-            val phone = phoneEditText.text.toString().trim()
-            val address = addressEditText.text.toString().trim()
-            val updatedChecked = checkedButton.isChecked
-
-            editButton.setOnClickListener {
-                val name = nameEditText.text.toString()
-                val id = idEditText.text.toString()
-                val phone = phoneEditText.text.toString()
-                val address = addressEditText.text.toString()
-                val isChecked = if (checkedButton.isChecked) "Checked" else "Unchecked"
-
-                editMessageTextView.text = "Name: $name, ID: $id, Phone: $phone, Address: $address, Status: $isChecked edited!"
+            val intent = Intent(this, EditStudentActivity::class.java)
+            startActivity(intent)
             }
         }
-    }
 }
