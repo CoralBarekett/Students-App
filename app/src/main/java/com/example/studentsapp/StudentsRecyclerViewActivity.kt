@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.CheckBox
+import android.widget.ImageButton
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -41,7 +42,7 @@ class StudentsRecyclerViewActivity : AppCompatActivity() {
         val adapter = StudentsRecyclerAdapter(students)
         recyclerView.adapter = adapter
 
-        val addStudentButton: Button = findViewById(R.id.students_list_activity_add_button)
+        val addStudentButton: ImageButton = findViewById(R.id.students_recycler_view_activity_add_button)
         addStudentButton.setOnClickListener {
             val intent = Intent(this, AddStudentActivity::class.java)
             startActivity(intent)

@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.EditText
-import android.widget.Toast
+import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -29,6 +29,8 @@ class StudentDetailsActivity : AppCompatActivity() {
         val idEditText: EditText = findViewById(R.id.student_details_activity_id_edit_text)
         val phoneEditText: EditText = findViewById(R.id.student_details_activity_phone_edit_text)
         val addressEditText: EditText = findViewById(R.id.student_details_activity_address_edit_text)
+        val editMessageTextView: TextView = findViewById(R.id.student_details_activity_edit_message_text_view)
+
 
         // Retrieve data from intent
         val studentName = intent.getStringExtra("studentName")
@@ -52,17 +54,15 @@ class StudentDetailsActivity : AppCompatActivity() {
             val address = addressEditText.text.toString().trim()
             val updatedChecked = checkedButton.isChecked
 
-            // Handle the updated student info
-            val updatedStudentInfo = "Name: $name\n" +
-                    "ID: $id\n" +
-                    "Phone: $phone\n" +
-                    "Address: $address\n" +
-                    "Checked: $updatedChecked"
+            editButton.setOnClickListener {
+                val name = nameEditText.text.toString()
+                val id = idEditText.text.toString()
+                val phone = phoneEditText.text.toString()
+                val address = addressEditText.text.toString()
+                val isChecked = if (checkedButton.isChecked) "Checked" else "Unchecked"
 
-            Toast.makeText(this, "Student details updated!", Toast.LENGTH_SHORT).show()
-
-            // Log or perform further actions with the updated info
-            println("Updated Student Info:\n$updatedStudentInfo")
+                editMessageTextView.text = "Name: $name, ID: $id, Phone: $phone, Address: $address, Status: $isChecked edited!"
+            }
         }
     }
 }
