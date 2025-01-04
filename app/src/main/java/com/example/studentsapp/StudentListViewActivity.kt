@@ -1,7 +1,6 @@
 package com.example.studentsapp
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -81,14 +80,10 @@ class StudentListViewActivity : AppCompatActivity() {
             val student = students?.get(position)
             val nameTextView: TextView? = view?.findViewById(R.id.student_row_name_text_view)
             val idTextView: TextView? = view?.findViewById(R.id.student_row_id_text_view)
-            val phoneTextView: TextView? =  view?.findViewById(R.id.student_row_phone_text_view)
-            val addressTextView: TextView? = view?.findViewById(R.id.student_row_address_text_view)
             val checkBox: CheckBox? = view?.findViewById(R.id.student_row_check_box)
 
             nameTextView?.text = student?.name
             idTextView?.text = student?.id
-            phoneTextView?.text = student?.phone
-            addressTextView?.text = student?.address
 
             checkBox?.apply {
                 isChecked = student?. isChecked ?: false
