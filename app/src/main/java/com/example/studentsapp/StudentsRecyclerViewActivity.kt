@@ -2,12 +2,14 @@ package com.example.studentsapp
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.ImageButton
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -55,31 +57,51 @@ class StudentsRecyclerViewActivity : AppCompatActivity() {
         private var student: Student? = null
 
         init {
-            // Set click listener on the entire row (itemView)
             itemView.setOnClickListener {
-                student?.let {
-                    val intent = Intent(itemView.context, StudentDetailsActivity::class.java).apply {
-                        putExtra("studentId", it.id)
-                        putExtra("studentName", it.name)
-                        putExtra("studentPhone", it.phone)
-                        putExtra("studentAddress", it.address)
-                        putExtra("isChecked", it.isChecked)
+                try {
+                    if (student != null) {
+                        val intent = Intent(itemView.context, StudentDetailsActivity::class.java)
+                        // Log the data being passed
+                        Log.d("StudentApp", "Passing student data: ${student?.name}, ${student?.id}")
+
+                        // Add extras safely
+                        student?.let { currentStudent ->
+                            intent.putExtra("studentId", currentStudent.id ?: "")
+                            intent.putExtra("studentName", currentStudent.name ?: "")
+                            intent.putExtra("studentPhone", currentStudent.phone ?: "")
+                            intent.putExtra("studentAddress", currentStudent.address ?: "")
+                            intent.putExtra("isChecked", currentStudent.isChecked)
+                        }
+
+                        itemView.context.startActivity(intent)
+                    } else {
+                        Toast.makeText(itemView.context, "Error: Student data not available", Toast.LENGTH_SHORT).show()
                     }
-                    itemView.context.startActivity(intent)
+                } catch (e: Exception) {
+                    Log.e("StudentApp", "Error opening student details: ${e.message}")
+                    Toast.makeText(itemView.context, "Error opening student details", Toast.LENGTH_SHORT).show()
                 }
             }
 
             checkBox?.setOnClickListener { view ->
-                val isChecked = (view as CheckBox).isChecked
-                student?.isChecked = isChecked
+                try {
+                    val isChecked = (view as CheckBox).isChecked
+                    student?.isChecked = isChecked
+                } catch (e: Exception) {
+                    Log.e("StudentApp", "Error updating checkbox: ${e.message}")
+                }
             }
         }
 
         fun bind(student: Student?) {
-            this.student = student
-            nameTextView?.text = student?.name
-            idTextView?.text = student?.id
-            checkBox?.isChecked = student?.isChecked ?: false
+            try {
+                this.student = student
+                nameTextView?.text = student?.name ?: ""
+                idTextView?.text = student?.id ?: ""
+                checkBox?.isChecked = student?.isChecked ?: false
+            } catch (e: Exception) {
+                Log.e("StudentApp", "Error binding student data: ${e.message}")
+            }
         }
     }
 

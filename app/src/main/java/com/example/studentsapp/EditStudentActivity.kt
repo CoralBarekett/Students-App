@@ -1,5 +1,6 @@
 package com.example.studentsapp
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.CheckBox
@@ -25,11 +26,13 @@ class EditStudentActivity : AppCompatActivity() {
         val checkedButton: CheckBox = findViewById(R.id.edit_student_activity_checked_button)
         val cancelButton: Button = findViewById(R.id.edit_student_activity_cancel_button)
         val saveButton: Button = findViewById(R.id.edit_student_activity_save_button)
+        val deleteButton: Button = findViewById(R.id.edit_student_activity_delete_button)
         val nameEditText: EditText = findViewById(R.id.edit_student_activity_name_edit_text)
         val idEditText: EditText = findViewById(R.id.edit_student_activity_id_edit_text)
         val phoneEditText: EditText = findViewById(R.id.edit_student_activity_phone_edit_text)
         val addressEditText: EditText = findViewById(R.id.edit_student_activity_address_edit_text)
         val saveMessageTextView: TextView = findViewById(R.id.edit_student_activity_save_message_text_view)
+
 
         // Retrieve data from intent
         val studentName = intent.getStringExtra("studentName")
@@ -45,12 +48,6 @@ class EditStudentActivity : AppCompatActivity() {
         studentAddress?.let { addressEditText.setText(it) }
         checkedButton.isChecked = isChecked
 
-        val name = nameEditText.text.toString().trim()
-        val id = idEditText.text.toString().trim()
-        val phone = phoneEditText.text.toString().trim()
-        val address = addressEditText.text.toString().trim()
-        val updatedChecked = checkedButton.isChecked
-
         cancelButton.setOnClickListener{
             finish()
         }
@@ -64,5 +61,10 @@ class EditStudentActivity : AppCompatActivity() {
 
             saveMessageTextView.text = "Name: $name, ID: $id, Phone: $phone, Address: $address, Status: $isChecked saved!"
         }
+
+        deleteButton.setOnClickListener {
+            saveMessageTextView.text = ""  // מוחק את התוכן של ה-TextView
+        }
+
     }
 }

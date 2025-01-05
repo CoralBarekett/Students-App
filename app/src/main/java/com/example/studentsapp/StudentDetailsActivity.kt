@@ -28,7 +28,8 @@ class StudentDetailsActivity : AppCompatActivity() {
         val nameEditText: EditText = findViewById(R.id.student_details_activity_name_edit_text)
         val idEditText: EditText = findViewById(R.id.student_details_activity_id_edit_text)
         val phoneEditText: EditText = findViewById(R.id.student_details_activity_phone_edit_text)
-        val addressEditText: EditText = findViewById(R.id.student_details_activity_address_edit_text)
+        val addressEditText: EditText =
+            findViewById(R.id.student_details_activity_address_edit_text)
         val editButton: Button = findViewById(R.id.student_details_activity_edit_button)
 
         // Retrieve data from intent
@@ -46,8 +47,20 @@ class StudentDetailsActivity : AppCompatActivity() {
         checkedButton.isChecked = isChecked
 
         editButton.setOnClickListener {
-            val intent = Intent(this, EditStudentActivity::class.java)
-            startActivity(intent)
+            val intent = Intent(this, EditStudentActivity::class.java).apply {
+                putExtra("studentName", studentName)  // Replace student.name with your actual data
+                putExtra("studentId", studentId)      // Replace student.id with your actual data
+                putExtra(
+                    "studentPhone",
+                    studentPhone
+                )  // Replace student.phone with your actual data
+                putExtra(
+                    "studentAddress",
+                    studentAddress
+                )  // Replace student.address with your actual data
+                putExtra("isChecked", isChecked)  // Replace student.isChecked with your actual data
             }
+            startActivity(intent)
         }
+    }
 }
